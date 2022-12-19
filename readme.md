@@ -23,3 +23,10 @@ docker compose up
 ```
 #### Open the URL bellow in your browser
 http://localhost:3000/
+
+
+## Important links about the technologies used in this project:
+- [Docker](https://docs.docker.com/)
+- [React](https://reactjs.org/docs/getting-started.html)
+- [Vite](https://vitejs.dev/guide/)
+- [Material UI](https://mui.com/material-ui/getting-started/overview/)
