@@ -1,13 +1,25 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { Button, Grid } from '@mui/material'
+import { Box } from '@mui/material'
+import ColorModeSwitcher from './components/ColorModeSwitcher';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
+    <Box
+      sx={{
+        display: 'flex',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: 'background.default',
+        color: 'text.primary',
+        borderRadius: 1,
+        p: 3,
+      }}
+    >
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -16,35 +28,11 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Button variant="text">Vite</Button>
-        </Grid>
-        <Grid item xs={2}>
-          <h1>+</h1>
-        </Grid>
-        <Grid item xs={2}>
-          <Button variant="contained">React</Button>
-        </Grid>
-        <Grid item xs={2}>
-          <h1>+</h1>
-        </Grid>
-        <Grid item xs={2}>
-          <Button variant="outlined">Luan</Button>
-        </Grid>
-      </Grid>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+      <ColorModeSwitcher />
+      <button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </button>
+    </Box>
   )
 }
 
