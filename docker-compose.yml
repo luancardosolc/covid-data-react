@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  covid_data:
+    container_name: covid_data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node:lts
+    working_dir: /var/www/html/app/
+    # Uncomment the line bellow to run the container without run the application
+    # entrypoint: /bin/bash
+    ports:
+      - '3000:3000'
+    expose:
+      - 3000
+    volumes:
+      - ./:/var/www/html/app
+    stdin_open: true 
+    tty: true
