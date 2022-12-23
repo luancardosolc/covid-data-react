@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import LineChart from './LineChart';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -23,7 +24,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -53,7 +54,7 @@ export default function ChartTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Reported cases
+        <LineChart />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Ranked charts
