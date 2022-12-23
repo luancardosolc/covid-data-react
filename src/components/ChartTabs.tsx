@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LineChart from './LineChart';
+import BarChart from './BarChart';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -57,7 +58,7 @@ export default function ChartTabs() {
         <LineChart />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Ranked charts
+        <BarChart />
       </TabPanel>
     </Box>
   );
