@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Autocomplete, Box, Container, TextField } from '@mui/material'
 import ColorModeSwitcher from './components/ColorModeSwitcher'
 import CovidDataService from './api/services/covid.service'
+import ChartTabs from './components/ChartTabs'
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -53,6 +54,7 @@ function App() {
             options={countries}
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
+          <ChartTabs />
         </Box>
       </Container>
     </Box>
