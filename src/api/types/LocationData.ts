@@ -1,10 +1,11 @@
-import DailyCountryData from "./DailyCountryData";
+import DailyLocationData from "./DailyLocationData";
 
-export default interface CountryData {
+export default interface LocationData {
+  abbreviation?: string;
   aged_65_older: number,
   aged_70_older: number,
   continent: string,
-  data: Array<DailyCountryData>,
+  data: Array<DailyLocationData>,
   diabetes_prevalence: number,
   gdp_per_capita: number,
   life_expectancy: number,

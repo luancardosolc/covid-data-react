@@ -1,9 +1,9 @@
 import http from '../client'
-import CountryList from '../types/CountryList'
+import LocationList from '../types/LocationList'
 
 class CovidDataService {
   getAll() {
-    return http.get<CountryList>('owid-covid-data.json')
+    return http.get<LocationList>('owid-covid-data.json')
   }
 }
 

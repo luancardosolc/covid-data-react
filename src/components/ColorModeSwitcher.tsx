@@ -9,10 +9,14 @@ export default function ColorModeSwitcher() {
   const colorMode = useContext(ColorModeContext);
   return <Box
     sx={{
-      display: 'flex',
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
+      // display: 'flex',
+      // width: '100%',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // position: 'absolute',
+      // right: 0,
+      // top: 0,
+      textAlign: 'right',
       bgcolor: 'background.default',
       color: 'text.primary',
       borderRadius: 1,

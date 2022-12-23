@@ -1,18 +1,33 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import { Box } from '@mui/material'
+import { Autocomplete, Box, Container, TextField } from '@mui/material'
 import ColorModeSwitcher from './components/ColorModeSwitcher'
 import CovidDataService from './api/services/covid.service'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState({})
+  const [countries, setCountries] = useState([])
+  const [continents, setContinents] = useState([])
+
   const fetchData = async () => {
     try {
       const response = await CovidDataService.getAll()
-      setData(response.data)
       console.log('API DATA', response.data)
+      const coutriesArray: any = [];
+      const continentsArray: any = [];
+
+      for (const locationAbbreviation in response.data) {
+        const LocationData = response.data[locationAbbreviation]
+        LocationData.abbreviation = locationAbbreviation
+        if (LocationData.continent) {
+          // Populating with countries only
+          coutriesArray.push({ label: LocationData.location, value: LocationData.abbreviation }) 
+        } else {
+          continentsArray.push({ label: LocationData.location, value: LocationData.abbreviation }) 
+        }
+      }
+      console.log('coutriesArray', coutriesArray)
+
+      setCountries(coutriesArray)
+      setContinents(coutriesArray)
     } catch (error) {
       console.error(error)
     }
@@ -23,29 +38,23 @@ function App() {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: 'background.default',
-        color: 'text.primary',
-        borderRadius: 1,
-        p: 3,
-      }}
+      sx={{ bgcolor: 'background.default', height: '100%' }}
     >
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <ColorModeSwitcher />
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
+      <Container maxWidth="lg">
+        <ColorModeSwitcher />
+        <Box
+          sx={{
+            bgcolor: 'background.default',
+            color: 'text.primary',
+            p: 3,
+          }}
+        >
+          <Autocomplete
+            options={countries}
+            renderInput={(params) => <TextField {...params} label="Countries" />}
+          />
+        </Box>
+      </Container>
     </Box>
   )
 }
