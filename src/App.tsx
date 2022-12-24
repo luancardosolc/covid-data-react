@@ -8,6 +8,7 @@ function App() {
   const [countries, setCountries] = useState([])
   const [continents, setContinents] = useState([])
   const [worldData, setWorldData] = useState({})
+  const [defaultValue, setDefaultValue] = useState({})
 
   const fetchData = async () => {
     try {
@@ -22,14 +23,10 @@ function App() {
         locationData.abbreviation = locationAbbreviation
         // OWID_WRL
         if (locationData.abbreviation === 'OWID_WRL') {
-          setWorldData(locationData);
+          setWorldData(locationData)
+          setDefaultValue({ label: locationData.location, value: locationData.abbreviation })
         }
-        if (locationData.continent) {
-          // Populating with countries only
-          countriesArray.push({ label: locationData.location, value: locationData.abbreviation }) 
-        } else {
-          continentsArray.push({ label: locationData.location, value: locationData.abbreviation }) 
-        }
+        countriesArray.push({ label: locationData.location, value: locationData.abbreviation })
       }
       console.log('countriesArray', countriesArray)
 
@@ -62,7 +59,7 @@ function App() {
         >
           <Autocomplete
             options={countries}
-            defaultValue={countries[0]}
+            defaultValue={defaultValue}
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
           <ChartTabs

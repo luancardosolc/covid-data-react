@@ -8,23 +8,61 @@ import {ChartDataShape, ChartZoomPan, LineChart as Chart, LineSeries, PointSerie
 export default function LineChart(props: { continents: any; countries: any; worldData: any; }) {
   const { continents, countries, worldData } = props
   console.log('worldData', worldData);
-  // Switch between death count or confirmed cases
-  // Switch between daily new values or cumulative mode
-  
-  // cumulative: total_cases
-  // daily new values: 
+  const confirmedCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const confirmedDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const deathCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const deathDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  let selectedData: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+
+  const [dataType, setDataType] = useState('confirmed_cases');
+  const [countType, setCountType] = useState('cumulative');
   
   const confirmedCasesWorldwide: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = []
   worldData.data.forEach((item: any, index: any) => {
-    confirmedCasesWorldwide.push({
+    confirmedCumulativeCases.push({
       id: index,
       key: new Date(item.date),
       data: item.total_cases,
     });
+    
+    confirmedDailyCases.push({
+      id: index,
+      key: new Date(item.date),
+      data: item.new_cases,
+    });
+    
+    deathCumulativeCases.push({
+      id: index,
+      key: new Date(item.date),
+      data: item.total_deaths,
+    });
+    
+    deathDailyCases.push({
+      id: index,
+      key: new Date(item.date),
+      data: item.new_deaths,
+    });
   });
   
-  const [dataType, setDataType] = useState('confirmed_cases');
-  const [countType, setCountType] = useState('cumulative');
+  if (dataType === 'confirmed_cases' && countType === 'cumulative') {
+    console.log('LUAN 1');
+    selectedData = confirmedCumulativeCases;
+  }
+  
+  if (dataType === 'confirmed_cases' && countType === 'daily_new_values') {
+    console.log('LUAN 2');
+    selectedData = confirmedDailyCases;
+  }
+  
+  if (dataType === 'death_count' && countType === 'cumulative') {
+    console.log('LUAN 3');
+    selectedData = deathCumulativeCases;
+  }
+  
+  if (dataType === 'death_count' && countType === 'daily_new_values') {
+    console.log('LUAN 4');
+    selectedData = deathDailyCases;
+  }
 
   const handleDataTypeChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -44,7 +82,7 @@ export default function LineChart(props: { continents: any; countries: any; worl
     <Box style={{ marginTop: '16px' }}>
       <Chart
         height={400}
-        data={confirmedCasesWorldwide}
+        data={selectedData}
         series={<LineSeries symbols={<PointSeries show={true} />} />}
         zoomPan={<ChartZoomPan />}
       />
