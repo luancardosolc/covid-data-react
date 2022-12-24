@@ -1,7 +1,6 @@
 import { ReactNode, SyntheticEvent, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LineChart from './LineChart';
 import BarChart from './BarChart';
@@ -39,7 +38,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ChartTabs() {
+export default function ChartTabs(props: { continents: any; countries: any; worldData: any; }) {
+  const { continents, countries, worldData } = props
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -55,10 +55,17 @@ export default function ChartTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <LineChart />
+        <LineChart
+          continents={continents}
+          countries={countries}
+          worldData={worldData}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <BarChart />
+        <BarChart
+          continents={continents}
+          countries={countries}
+        />
       </TabPanel>
     </Box>
   );

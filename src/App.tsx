@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, Box, Container, TextField } from '@mui/material'
+import { Autocomplete, Box, Container, TextField, Typography } from '@mui/material'
 import ColorModeSwitcher from './components/ColorModeSwitcher'
 import CovidDataService from './api/services/covid.service'
 import ChartTabs from './components/ChartTabs'
@@ -7,28 +7,34 @@ import ChartTabs from './components/ChartTabs'
 function App() {
   const [countries, setCountries] = useState([])
   const [continents, setContinents] = useState([])
+  const [worldData, setWorldData] = useState({})
 
   const fetchData = async () => {
     try {
       const response = await CovidDataService.getAll()
       console.log('API DATA', response.data)
-      const coutriesArray: any = [];
+      const countriesArray: any = [];
       const continentsArray: any = [];
 
+      countriesArray.push({ label: 'Global Data', value: 'GBL' })
       for (const locationAbbreviation in response.data) {
-        const LocationData = response.data[locationAbbreviation]
-        LocationData.abbreviation = locationAbbreviation
-        if (LocationData.continent) {
+        const locationData = response.data[locationAbbreviation]
+        locationData.abbreviation = locationAbbreviation
+        // OWID_WRL
+        if (locationData.abbreviation === 'OWID_WRL') {
+          setWorldData(locationData);
+        }
+        if (locationData.continent) {
           // Populating with countries only
-          coutriesArray.push({ label: LocationData.location, value: LocationData.abbreviation }) 
+          countriesArray.push({ label: locationData.location, value: locationData.abbreviation }) 
         } else {
-          continentsArray.push({ label: LocationData.location, value: LocationData.abbreviation }) 
+          continentsArray.push({ label: locationData.location, value: locationData.abbreviation }) 
         }
       }
-      console.log('coutriesArray', coutriesArray)
+      console.log('countriesArray', countriesArray)
 
-      setCountries(coutriesArray)
-      setContinents(coutriesArray)
+      setCountries(countriesArray)
+      setContinents(continentsArray)
     } catch (error) {
       console.error(error)
     }
@@ -43,6 +49,10 @@ function App() {
     >
       <Container maxWidth="lg">
         <ColorModeSwitcher />
+        {!(countries.length > 0) ?
+        <Typography sx={{ color: 'text.primary' }} >
+          Loading...
+        </Typography> : 
         <Box
           sx={{
             bgcolor: 'background.default',
@@ -52,10 +62,15 @@ function App() {
         >
           <Autocomplete
             options={countries}
+            defaultValue={countries[0]}
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
-          <ChartTabs />
-        </Box>
+          <ChartTabs
+            continents={continents}
+            countries={countries}
+            worldData={worldData}
+          />
+        </Box>}
       </Container>
     </Box>
   )

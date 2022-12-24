@@ -1,6 +1,7 @@
 import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
-export default function BarChart() {
+export default function BarChart(props: { continents: any; countries: any; }) {
+  const { continents, countries } = props
   const data = [
     {
       key: 'Phishing Attack',
