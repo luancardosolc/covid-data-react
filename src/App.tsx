@@ -12,6 +12,10 @@ function App() {
   const [value, setValue] = useState<any | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
   const [locations, setLocations] = useState<any | null>(null);
+  
+  // last item of array data
+  const [cumulativeTotalData, setCumulativeTotalData] = useState([])
+  const [cumulativeDeathData, setCumulativeDeathData] = useState([])
 
   const fetchData = async () => {
     try {
@@ -20,22 +24,34 @@ function App() {
       console.log('API DATA', response.data)
       const locationsArray: any = []
       const continentsArray: any = []
+      const cumulativeTotalDataTemp: any = []
+      const cumulativeDeathDataTemp: any = []
 
       for (const locationAbbreviation in response.data) {
         const locationData = response.data[locationAbbreviation]
         locationData.abbreviation = locationAbbreviation
-        // OWID_WRL
+        
+        // Global Data
         if (locationData.abbreviation === 'OWID_WRL') {
-          setWorldData(locationData)
+          setWorldData(locationData) // Remove
           setValue({ label: locationData.location, value: locationData.abbreviation })
           setSelectedLocation(response.data[locationData.abbreviation])
         }
+        
+        // Autocomplete Data
         locationsArray.push({ label: locationData.location, value: locationData.abbreviation })
+        
+        // Cumulative Data for Ranked Charts
+        const locationDataLastDay = locationData.data[locationData.data.length - 1]
+        cumulativeTotalDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_cases})
+        cumulativeDeathDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_deaths})
       }
       console.log('locationsArray', locationsArray)
 
       setCountries(locationsArray)
       setContinents(continentsArray)
+      setCumulativeTotalData(cumulativeTotalDataTemp)
+      setCumulativeDeathData(cumulativeDeathDataTemp)
     } catch (error) {
       console.error(error)
     }
@@ -80,6 +96,9 @@ function App() {
             countries={countries}
             worldData={worldData}
             selectedLocation={selectedLocation}
+            locations={locations}
+            cumulativeTotalData={cumulativeTotalData}
+            cumulativeDeathData={cumulativeDeathData}
           />
         </Box>}
       </Container>

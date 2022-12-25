@@ -38,8 +38,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ChartTabs(props: { continents: any; countries: any; worldData: any; selectedLocation: any; }) {
-  const { continents, countries, worldData, selectedLocation } = props
+export default function ChartTabs(props: { continents: any; countries: any; worldData: any; selectedLocation: any; locations: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
+  const { continents, countries, worldData, selectedLocation, locations, cumulativeTotalData, cumulativeDeathData } = props
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -66,6 +66,9 @@ export default function ChartTabs(props: { continents: any; countries: any; worl
         <BarChart
           continents={continents}
           countries={countries}
+          locations={locations}
+          cumulativeTotalData={cumulativeTotalData}
+          cumulativeDeathData={cumulativeDeathData}
         />
       </TabPanel>
     </Box>

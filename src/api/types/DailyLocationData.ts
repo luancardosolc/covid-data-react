@@ -4,4 +4,5 @@ export default interface DailyLocationData {
   new_cases_per_million: number,
   total_cases: number,
   total_cases_per_million: number,
+  total_deaths?: number,
 }
