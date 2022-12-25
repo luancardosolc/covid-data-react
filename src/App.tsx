@@ -8,29 +8,33 @@ function App() {
   const [countries, setCountries] = useState([])
   const [continents, setContinents] = useState([])
   const [worldData, setWorldData] = useState({})
-  const [defaultValue, setDefaultValue] = useState({})
+  
+  const [value, setValue] = useState<any | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
+  const [locations, setLocations] = useState<any | null>(null);
 
   const fetchData = async () => {
     try {
       const response = await CovidDataService.getAll()
+      setLocations(response.data)
       console.log('API DATA', response.data)
-      const countriesArray: any = [];
-      const continentsArray: any = [];
+      const locationsArray: any = []
+      const continentsArray: any = []
 
-      countriesArray.push({ label: 'Global Data', value: 'GBL' })
       for (const locationAbbreviation in response.data) {
         const locationData = response.data[locationAbbreviation]
         locationData.abbreviation = locationAbbreviation
         // OWID_WRL
         if (locationData.abbreviation === 'OWID_WRL') {
           setWorldData(locationData)
-          setDefaultValue({ label: locationData.location, value: locationData.abbreviation })
+          setValue({ label: locationData.location, value: locationData.abbreviation })
+          setSelectedLocation(response.data[locationData.abbreviation])
         }
-        countriesArray.push({ label: locationData.location, value: locationData.abbreviation })
+        locationsArray.push({ label: locationData.location, value: locationData.abbreviation })
       }
-      console.log('countriesArray', countriesArray)
+      console.log('locationsArray', locationsArray)
 
-      setCountries(countriesArray)
+      setCountries(locationsArray)
       setContinents(continentsArray)
     } catch (error) {
       console.error(error)
@@ -39,6 +43,8 @@ function App() {
   useEffect(() => {
     fetchData()
   }, [])
+  console.log('LUAN VALUE', value)
+  console.log('LUAN selectedLocation', selectedLocation)
 
   return (
     <Box
@@ -58,14 +64,22 @@ function App() {
           }}
         >
           <Autocomplete
+            value={value}
+            onChange={(event: any, newValue: any | null) => {
+              console.log('LUAN onChange', newValue)
+              setValue(newValue)
+              if (newValue.value) {
+                setSelectedLocation(locations[newValue.value]) 
+              }
+            }}
             options={countries}
-            defaultValue={defaultValue}
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
           <ChartTabs
             continents={continents}
             countries={countries}
             worldData={worldData}
+            selectedLocation={selectedLocation}
           />
         </Box>}
       </Container>

@@ -5,8 +5,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
 import {ChartDataShape, ChartZoomPan, LineChart as Chart, LineSeries, PointSeries} from 'reaviz'
 
-export default function LineChart(props: { continents: any; countries: any; worldData: any; }) {
-  const { continents, countries, worldData } = props
+export default function LineChart(props: { continents: any; countries: any; worldData: any; selectedLocation: any; }) {
+  const { continents, countries, worldData, selectedLocation } = props
   console.log('worldData', worldData);
   const confirmedCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
   const confirmedDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
@@ -18,7 +18,7 @@ export default function LineChart(props: { continents: any; countries: any; worl
   const [countType, setCountType] = useState('cumulative');
   
   const confirmedCasesWorldwide: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = []
-  worldData.data.forEach((item: any, index: any) => {
+  selectedLocation.data.forEach((item: any, index: any) => {
     confirmedCumulativeCases.push({
       id: index,
       key: new Date(item.date),
