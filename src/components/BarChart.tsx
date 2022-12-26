@@ -1,4 +1,8 @@
+import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
@@ -28,7 +32,10 @@ export default function BarChart(props: { continents: any; countries: any; locat
   };
 
   // Logic for the Quantity Selector
-  const [quantitySelector, setQuantitySelector] = useState(10);
+  const [quantitySelector, setQuantitySelector] = useState('10');
+  const handleQuantityChange = (event: SelectChangeEvent) => {
+    setQuantitySelector(event.target.value as string);
+  };
 
   // Logic to make the Quantity Selector change the data
   
@@ -63,8 +70,21 @@ export default function BarChart(props: { continents: any; countries: any; locat
           </ToggleButtonGroup>
         </Grid>
         {/* Quantity Selector */}
-        <Grid item xs={6} sx={{ textAlign: 'center' }}>
-          {/* Quantity Selector */}
+        <Grid item xs={6} sx={{ textAlign: 'center', minWidth: 120 }}>
+          <FormControl size='small'>
+            <InputLabel id="countries-quantity-select-label">Countries Quantity</InputLabel>
+            <Select
+              labelId="countries-quantity-select-label"
+              id="countries-quantity-select"
+              value={quantitySelector}
+              label="Countries Quantity"
+              onChange={handleQuantityChange}
+            >
+              {[...Array(sortedCumulativeTotalData.length)].map((x, i) => 
+                <MenuItem value={(i+1).toString()}>{i+1}</MenuItem>
+              )}
+            </Select>
+          </FormControl>
         </Grid>
       </Grid>
     </>
