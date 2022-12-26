@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
@@ -70,21 +71,26 @@ export default function BarChart(props: { continents: any; countries: any; locat
           </ToggleButtonGroup>
         </Grid>
         {/* Quantity Selector */}
-        <Grid item xs={6} sx={{ textAlign: 'center', minWidth: 120 }}>
-          <FormControl size='small'>
-            <InputLabel id="countries-quantity-select-label">Countries Quantity</InputLabel>
+        <Grid item xs={3} sx={{
+          textAlign: 'right',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}>
+          <InputLabel id="countries-quantity-select-label">Countries Quantity</InputLabel>
+        </Grid>
+        <Grid item xs={3} sx={{ textAlign: 'left' }}>
+        <FormControl size='small'>
             <Select
-              labelId="countries-quantity-select-label"
-              id="countries-quantity-select"
               value={quantitySelector}
-              label="Countries Quantity"
+              label=""
               onChange={handleQuantityChange}
             >
               {[...Array(sortedCumulativeTotalData.length)].map((x, i) => 
                 <MenuItem value={(i+1).toString()}>{i+1}</MenuItem>
               )}
             </Select>
-          </FormControl>
+        </FormControl>
         </Grid>
       </Grid>
     </>
