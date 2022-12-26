@@ -31,20 +31,23 @@ function App() {
         const locationData = response.data[locationAbbreviation]
         locationData.abbreviation = locationAbbreviation
         
+        // Cumulative Data for Ranked Charts
+        const locationDataLastDay = locationData.data[locationData.data.length - 1]
+        if (!locationDataLastDay?.total_cases || !locationDataLastDay?.total_deaths) {
+          continue
+        }
+        cumulativeTotalDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_cases})
+        cumulativeDeathDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_deaths})
+        
         // Global Data
         if (locationData.abbreviation === 'OWID_WRL') {
-          setWorldData(locationData) // Remove
+          setWorldData(locationData) // REMOVE
           setValue({ label: locationData.location, value: locationData.abbreviation })
           setSelectedLocation(response.data[locationData.abbreviation])
         }
         
         // Autocomplete Data
         locationsArray.push({ label: locationData.location, value: locationData.abbreviation })
-        
-        // Cumulative Data for Ranked Charts
-        const locationDataLastDay = locationData.data[locationData.data.length - 1]
-        cumulativeTotalDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_cases})
-        cumulativeDeathDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_deaths})
       }
       console.log('locationsArray', locationsArray)
 
