@@ -56,14 +56,11 @@ export default function ChartTabs(props: { countries: any; selectedLocation: any
       </Box>
       <TabPanel value={value} index={0}>
         <LineChart
-          countries={countries}
           selectedLocation={selectedLocation}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <BarChart
-          countries={countries}
-          locations={locations}
           cumulativeTotalData={cumulativeTotalData}
           cumulativeDeathData={cumulativeDeathData}
         />

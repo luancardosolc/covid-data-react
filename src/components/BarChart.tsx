@@ -9,8 +9,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
 import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
-export default function BarChart(props: { countries: any; locations: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
-  const { countries, locations, cumulativeTotalData, cumulativeDeathData } = props
+export default function BarChart(props: { cumulativeTotalData: any; cumulativeDeathData: any; }) {
+  const { cumulativeTotalData, cumulativeDeathData } = props
   
   console.log('LUAN cumulativeTotalData', cumulativeTotalData);
   console.log('LUAN cumulativeDeathData', cumulativeDeathData);
