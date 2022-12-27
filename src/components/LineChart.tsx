@@ -82,7 +82,7 @@ export default function LineChart(props: { countries: any; selectedLocation: any
       <Chart
         height={400}
         data={selectedData}
-        series={<LineSeries symbols={<PointSeries show={true} />} />}
+        series={<LineSeries symbols={null} />}
         zoomPan={<ChartZoomPan />}
       />
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
