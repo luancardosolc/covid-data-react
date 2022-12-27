@@ -6,8 +6,6 @@ import ChartTabs from './components/ChartTabs'
 
 function App() {
   const [countries, setCountries] = useState([])
-  const [continents, setContinents] = useState([])
-  const [worldData, setWorldData] = useState({})
   
   const [value, setValue] = useState<any | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
@@ -41,7 +39,6 @@ function App() {
         
         // Global Data
         if (locationData.abbreviation === 'OWID_WRL') {
-          setWorldData(locationData) // REMOVE
           setValue({ label: locationData.location, value: locationData.abbreviation })
           setSelectedLocation(response.data[locationData.abbreviation])
         }
@@ -52,7 +49,6 @@ function App() {
       console.log('locationsArray', locationsArray)
 
       setCountries(locationsArray)
-      setContinents(continentsArray)
       setCumulativeTotalData(cumulativeTotalDataTemp)
       setCumulativeDeathData(cumulativeDeathDataTemp)
     } catch (error) {
@@ -95,9 +91,7 @@ function App() {
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
           <ChartTabs
-            continents={continents}
             countries={countries}
-            worldData={worldData}
             selectedLocation={selectedLocation}
             locations={locations}
             cumulativeTotalData={cumulativeTotalData}

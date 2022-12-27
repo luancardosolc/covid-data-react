@@ -9,8 +9,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
 import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
-export default function BarChart(props: { continents: any; countries: any; locations: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
-  const { continents, countries, locations, cumulativeTotalData, cumulativeDeathData } = props
+export default function BarChart(props: { countries: any; locations: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
+  const { countries, locations, cumulativeTotalData, cumulativeDeathData } = props
   
   console.log('LUAN cumulativeTotalData', cumulativeTotalData);
   console.log('LUAN cumulativeDeathData', cumulativeDeathData);
@@ -40,7 +40,7 @@ export default function BarChart(props: { continents: any; countries: any; locat
 
   // Logic to make the Quantity Selector change the data
   
-  // Logic to get the top 10 on the chart only
+  // Logic to get the top X on the chart only
   let data = []
   if (dataType === 'total_cases') {
     data = sortedCumulativeTotalData.slice(0, quantitySelector)

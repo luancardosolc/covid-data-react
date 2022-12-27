@@ -5,9 +5,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
 import {ChartDataShape, ChartZoomPan, LineChart as Chart, LineSeries, PointSeries} from 'reaviz'
 
-export default function LineChart(props: { continents: any; countries: any; worldData: any; selectedLocation: any; }) {
-  const { continents, countries, worldData, selectedLocation } = props
-  console.log('worldData', worldData);
+export default function LineChart(props: { countries: any; selectedLocation: any; }) {
+  const { countries, selectedLocation } = props
   const confirmedCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
   const confirmedDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
   const deathCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
