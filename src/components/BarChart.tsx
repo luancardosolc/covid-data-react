@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,17 +10,10 @@ import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
 export default function BarChart(props: { cumulativeTotalData: any; cumulativeDeathData: any; }) {
   const { cumulativeTotalData, cumulativeDeathData } = props
-  
-  console.log('LUAN cumulativeTotalData', cumulativeTotalData);
-  console.log('LUAN cumulativeDeathData', cumulativeDeathData);
-
-  // MISSING STEPS:
 
   // Sort both arrays
   const sortedCumulativeTotalData = cumulativeTotalData.sort((a: any, b: any) => (b.data - a.data))
-  console.log('LUAN sortedCumulativeTotalData', sortedCumulativeTotalData);
   const sortedCumulativeDeathData = cumulativeDeathData.sort((a: any, b: any) => (b.data - a.data))
-  console.log('LUAN sortedCumulativeDeathData', sortedCumulativeDeathData);
 
   // Logic for the data type switcher
   const [dataType, setDataType] = useState('total_cases');
@@ -37,8 +29,6 @@ export default function BarChart(props: { cumulativeTotalData: any; cumulativeDe
   const handleQuantityChange = (event: SelectChangeEvent) => {
     setQuantitySelector(event.target.value as string);
   };
-
-  // Logic to make the Quantity Selector change the data
   
   // Logic to get the top X on the chart only
   let data = []

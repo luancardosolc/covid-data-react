@@ -38,8 +38,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ChartTabs(props: { countries: any; selectedLocation: any; locations: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
-  const { countries, selectedLocation, locations, cumulativeTotalData, cumulativeDeathData } = props
+export default function ChartTabs(props: { selectedLocation: any; cumulativeTotalData: any; cumulativeDeathData: any; }) {
+  const { selectedLocation, cumulativeTotalData, cumulativeDeathData } = props
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {

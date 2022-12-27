@@ -15,8 +15,7 @@ export default function LineChart(props: { selectedLocation: any; }) {
 
   const [dataType, setDataType] = useState('confirmed_cases');
   const [countType, setCountType] = useState('cumulative');
-  
-  const confirmedCasesWorldwide: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = []
+
   selectedLocation.data.forEach((item: any, index: any) => {
     confirmedCumulativeCases.push({
       id: index,
@@ -44,22 +43,18 @@ export default function LineChart(props: { selectedLocation: any; }) {
   });
   
   if (dataType === 'confirmed_cases' && countType === 'cumulative') {
-    console.log('LUAN 1');
     selectedData = confirmedCumulativeCases;
   }
   
   if (dataType === 'confirmed_cases' && countType === 'daily_new_values') {
-    console.log('LUAN 2');
     selectedData = confirmedDailyCases;
   }
   
   if (dataType === 'death_count' && countType === 'cumulative') {
-    console.log('LUAN 3');
     selectedData = deathCumulativeCases;
   }
   
   if (dataType === 'death_count' && countType === 'daily_new_values') {
-    console.log('LUAN 4');
     selectedData = deathDailyCases;
   }
 

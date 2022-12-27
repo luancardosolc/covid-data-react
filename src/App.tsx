@@ -6,12 +6,11 @@ import ChartTabs from './components/ChartTabs'
 
 function App() {
   const [countries, setCountries] = useState([])
-  
+
   const [value, setValue] = useState<any | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
   const [locations, setLocations] = useState<any | null>(null);
-  
-  // last item of array data
+
   const [cumulativeTotalData, setCumulativeTotalData] = useState([])
   const [cumulativeDeathData, setCumulativeDeathData] = useState([])
 
@@ -19,9 +18,8 @@ function App() {
     try {
       const response = await CovidDataService.getAll()
       setLocations(response.data)
-      console.log('API DATA', response.data)
+
       const locationsArray: any = []
-      const continentsArray: any = []
       const cumulativeTotalDataTemp: any = []
       const cumulativeDeathDataTemp: any = []
 
@@ -46,7 +44,6 @@ function App() {
         // Autocomplete Data
         locationsArray.push({ label: locationData.location, value: locationData.abbreviation })
       }
-      console.log('locationsArray', locationsArray)
 
       setCountries(locationsArray)
       setCumulativeTotalData(cumulativeTotalDataTemp)
@@ -58,8 +55,6 @@ function App() {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log('LUAN VALUE', value)
-  console.log('LUAN selectedLocation', selectedLocation)
 
   return (
     <Box
@@ -81,7 +76,6 @@ function App() {
           <Autocomplete
             value={value}
             onChange={(event: any, newValue: any | null) => {
-              console.log('LUAN onChange', newValue)
               setValue(newValue)
               if (newValue.value) {
                 setSelectedLocation(locations[newValue.value]) 
@@ -91,9 +85,7 @@ function App() {
             renderInput={(params) => <TextField {...params} label="Countries" />}
           />
           <ChartTabs
-            countries={countries}
             selectedLocation={selectedLocation}
-            locations={locations}
             cumulativeTotalData={cumulativeTotalData}
             cumulativeDeathData={cumulativeDeathData}
           />
