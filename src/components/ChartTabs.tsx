@@ -54,11 +54,13 @@ export default function ChartTabs(props: { selectedLocation: any; cumulativeTota
           <Tab label="Ranked charts" {...a11yProps(1)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <LineChart
-          selectedLocation={selectedLocation}
-        />
-      </TabPanel>
+      {selectedLocation && (
+        <TabPanel value={value} index={0}>
+          <LineChart
+            selectedLocation={selectedLocation}
+          />
+        </TabPanel>
+      )}
       <TabPanel value={value} index={1}>
         <BarChart
           cumulativeTotalData={cumulativeTotalData}

@@ -1,8 +1,9 @@
 import axios from "axios"
 
 export default axios.create({
-  baseURL: 'https://covid.ourworldindata.org/data/',
-  headers: {
-    "Content-type": "application/json"
-  },
+  // Mocked Data (public/owid-covid-data.json)
+  baseURL: '',
+  // Live Data
+  // baseURL: import.meta.env.VITE_APP_API_URL,
+  headers: {},
 })

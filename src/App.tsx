@@ -28,14 +28,24 @@ function App() {
         locationData.abbreviation = locationAbbreviation
         
         // Cumulative Data for Ranked Charts
-        const locationDataLastDay = locationData.data[locationData.data.length - 1]
-        if (!locationDataLastDay?.total_cases || !locationDataLastDay?.total_deaths) {
+        let index = -1;
+        for (let i = locationData.data.length - 1; i > 0; i--) {
+          const data = locationData.data[i];
+          if (data.total_cases && data.total_deaths) {
+            index = i;
+            break;
+          }
+        }
+
+        if (index === -1) {
           continue
         }
+        const locationDataLastDay = locationData.data[index]
         cumulativeTotalDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_cases})
         cumulativeDeathDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_deaths})
         
         // Global Data
+        console.log('LUAN ', { abbreviation: locationData.abbreviation, locationData });
         if (locationData.abbreviation === 'OWID_WRL') {
           setValue({ label: locationData.location, value: locationData.abbreviation })
           setSelectedLocation(response.data[locationData.abbreviation])
