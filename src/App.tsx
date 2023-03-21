@@ -16,6 +16,7 @@ function App() {
 
   const fetchData = async () => {
     try {
+      let valueTemp, selectedLocationTemp = null;
       const response = await CovidDataService.getAll()
       setLocations(response.data)
 
@@ -47,8 +48,8 @@ function App() {
         // Global Data
         console.log('LUAN ', { abbreviation: locationData.abbreviation, locationData });
         if (locationData.abbreviation === 'OWID_WRL') {
-          setValue({ label: locationData.location, value: locationData.abbreviation })
-          setSelectedLocation(response.data[locationData.abbreviation])
+          valueTemp = { label: locationData.location, value: locationData.abbreviation };
+          selectedLocationTemp = response.data[locationData.abbreviation];
         }
         
         // Autocomplete Data
@@ -58,6 +59,8 @@ function App() {
       setCountries(locationsArray)
       setCumulativeTotalData(cumulativeTotalDataTemp)
       setCumulativeDeathData(cumulativeDeathDataTemp)
+      setValue(valueTemp)
+      setSelectedLocation(selectedLocationTemp)
     } catch (error) {
       console.error(error)
     }

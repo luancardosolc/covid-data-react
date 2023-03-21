@@ -3,15 +3,15 @@ import Grid from '@mui/material/Grid';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
-import {ChartDataShape, ChartZoomPan, LineChart as Chart, LineSeries, PointSeries} from 'reaviz'
+import { LineChart as Chart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function LineChart(props: { selectedLocation: any; }) {
   const { selectedLocation } = props
-  const confirmedCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const confirmedDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const deathCumulativeCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const deathDailyCases: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  let selectedData: ChartDataShape[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const confirmedCumulativeCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const confirmedDailyCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const deathCumulativeCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const deathDailyCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  let selectedData: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
 
   const [dataType, setDataType] = useState('confirmed_cases');
   const [countType, setCountType] = useState('cumulative');
@@ -19,25 +19,25 @@ export default function LineChart(props: { selectedLocation: any; }) {
   selectedLocation.data.forEach((item: any, index: any) => {
     confirmedCumulativeCases.push({
       id: index,
-      key: new Date(item.date),
+      key: item.date,
       data: item.total_cases,
     });
     
     confirmedDailyCases.push({
       id: index,
-      key: new Date(item.date),
+      key: item.date,
       data: item.new_cases,
     });
     
     deathCumulativeCases.push({
       id: index,
-      key: new Date(item.date),
+      key: item.date,
       data: item.total_deaths,
     });
     
     deathDailyCases.push({
       id: index,
-      key: new Date(item.date),
+      key: item.date,
       data: item.new_deaths,
     });
   });
@@ -71,15 +71,75 @@ export default function LineChart(props: { selectedLocation: any; }) {
   ) => {
     setCountType(newCountType);
   };
+  
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ];
 
+  console.log('LineChart', { selectedData });
   return (
     <Box style={{ marginTop: '16px' }}>
-      <Chart
-        height={400}
-        data={selectedData}
-        series={<LineSeries symbols={null} />}
-        zoomPan={<ChartZoomPan />}
-      />
+      <ResponsiveContainer width="100%" height="100%">
+        <Chart
+          width={500}
+          height={300}
+          data={selectedData}
+          margin={{
+            top: 5,
+            right: 0,
+            left: 50,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="key" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="data" stroke="#82ca9d" activeDot={{ r: 8 }} />
+        </Chart>
+      </ResponsiveContainer>
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         <Grid item xs={6} sx={{ textAlign: 'center' }}>
           <ToggleButtonGroup

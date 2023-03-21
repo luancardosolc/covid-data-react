@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
-import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
+// import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
 export default function BarChart(props: { cumulativeTotalData: any; cumulativeDeathData: any; }) {
   const { cumulativeTotalData, cumulativeDeathData } = props
@@ -40,11 +40,11 @@ export default function BarChart(props: { cumulativeTotalData: any; cumulativeDe
 
   return (
     <>
-      <Chart
+      {/* <Chart
         height={400}
         data={data}
         gridlines={<GridlineSeries line={<Gridline direction="all" />} />}
-      />
+      /> */}
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {/* Data type selector */}
         <Grid item xs={6} sx={{ textAlign: 'center' }}>
