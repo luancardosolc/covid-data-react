@@ -120,9 +120,9 @@ export default function LineChart(props: { selectedLocation: any; }) {
   console.log('LineChart', { selectedData });
   return (
     <Box style={{ marginTop: '16px' }}>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer height={400}>
         <Chart
-          width={500}
+          width={1056}
           height={300}
           data={selectedData}
           margin={{
