@@ -3,15 +3,33 @@ import Grid from '@mui/material/Grid';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
-import { LineChart as Chart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart as Chart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { format } from 'date-fns'
+
+import { dateHelper } from '../utils/dateHelper';
+
+const CustomizedAxisTick = (props: any) => {
+  const {x, y, stroke, payload} = props;
+  const [monthDay, year] = payload.value.split(', ');
+  
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} fill="#666">
+        <tspan textAnchor="middle" x="0">{monthDay}</tspan>
+        <tspan textAnchor="middle" x="0" dy="20">{year}</tspan>
+      </text>
+    </g>
+  );
+};
 
 export default function LineChart(props: { selectedLocation: any; }) {
   const { selectedLocation } = props
-  const confirmedCumulativeCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const confirmedDailyCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const deathCumulativeCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  const deathDailyCases: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
-  let selectedData: any[] | { id: any; key: Date; data: any; }[] | undefined = [];
+  const confirmedCumulativeCases: any[] | { id: any; key: string; data: any; }[] | undefined = [];
+  const confirmedDailyCases: any[] | { id: any; key: string; data: any; }[] | undefined = [];
+  const deathCumulativeCases: any[] | { id: any; key: string; data: any; }[] | undefined = [];
+  const deathDailyCases: any[] | { id: any; key: string; data: any; }[] | undefined = [];
+  let selectedData: any[] | { id: any; key: string; data: any; }[] | undefined = [];
+  let dataLabel: string = 'Cases';
 
   const [dataType, setDataType] = useState('confirmed_cases');
   const [countType, setCountType] = useState('cumulative');
@@ -19,43 +37,47 @@ export default function LineChart(props: { selectedLocation: any; }) {
   selectedLocation.data.forEach((item: any, index: any) => {
     confirmedCumulativeCases.push({
       id: index,
-      key: item.date,
+      key: dateHelper.format(item.date),
       data: item.total_cases,
     });
     
     confirmedDailyCases.push({
       id: index,
-      key: item.date,
+      key: dateHelper.format(item.date),
       data: item.new_cases,
     });
     
     deathCumulativeCases.push({
       id: index,
-      key: item.date,
+      key: dateHelper.format(item.date),
       data: item.total_deaths,
     });
     
     deathDailyCases.push({
       id: index,
-      key: item.date,
+      key: dateHelper.format(item.date),
       data: item.new_deaths,
     });
   });
   
   if (dataType === 'confirmed_cases' && countType === 'cumulative') {
     selectedData = confirmedCumulativeCases;
+    dataLabel = 'Cases';
   }
   
   if (dataType === 'confirmed_cases' && countType === 'daily_new_values') {
     selectedData = confirmedDailyCases;
+    dataLabel = 'Cases';
   }
   
   if (dataType === 'death_count' && countType === 'cumulative') {
     selectedData = deathCumulativeCases;
+    dataLabel = 'Deaths';
   }
   
   if (dataType === 'death_count' && countType === 'daily_new_values') {
     selectedData = deathDailyCases;
+    dataLabel = 'Deaths';
   }
 
   const handleDataTypeChange = (
@@ -72,7 +94,6 @@ export default function LineChart(props: { selectedLocation: any; }) {
     setCountType(newCountType);
   };
 
-  console.log('LineChart', { selectedData });
   return (
     <Box style={{ marginTop: '16px' }}>
       <ResponsiveContainer height={400}>
@@ -82,16 +103,17 @@ export default function LineChart(props: { selectedLocation: any; }) {
           data={selectedData}
           margin={{
             top: 5,
-            right: 0,
+            right: 50,
             left: 50,
-            bottom: 5,
+            bottom: 20,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="key"
-            minTickGap={20}
+            // minTickGap={40}
             tickSize={10}
+            tick={<CustomizedAxisTick/>}
           />
           <YAxis />
           <Tooltip />
@@ -102,7 +124,7 @@ export default function LineChart(props: { selectedLocation: any; }) {
             activeDot={{ r: 5 }}
             dot={false}
             strokeWidth={3}
-            name="Date"
+            name={dataLabel}
           />
         </Chart>
       </ResponsiveContainer>
