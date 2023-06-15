@@ -83,7 +83,7 @@ function App() {
           sx={{
             bgcolor: 'background.default',
             color: 'text.primary',
-            p: 3,
+            p: 1,
           }}
         >
           <Autocomplete
