@@ -1,6 +1,6 @@
 export default {
   translations: {
-    countries: 'countries',
+    countries: 'Countries',
     darkMode: 'Dark Mode',
     lightMode: 'Light Mode',
     reportedCases: 'reported cases',

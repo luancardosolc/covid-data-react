@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Autocomplete, Box, Container, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Container, Grid, TextField, Typography } from '@mui/material'
 import ColorModeSwitcher from './components/ColorModeSwitcher'
 import CovidDataService from './api/services/covid.service'
 import ChartTabs from './components/ChartTabs'
+import Translator from './i18n/translator'
+import LanguageSwitcher from './i18n/languageSwitcher'
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -74,7 +76,14 @@ function App() {
       sx={{ bgcolor: 'background.default', height: '100%' }}
     >
       <Container maxWidth="lg">
-        <ColorModeSwitcher />
+        <Grid container sx={{ pt: '10px' }} justifyContent="flex-end">
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ColorModeSwitcher />
+          </Box>
+          <Grid item xs={12} sm={6} md={3}>
+            <LanguageSwitcher />
+          </Grid>
+        </Grid>
         {!(countries.length > 0) ?
         <Typography sx={{ color: 'text.primary' }} >
           Loading...
@@ -94,8 +103,9 @@ function App() {
                 setSelectedLocation(locations[newValue.value]) 
               }
             }}
+            isOptionEqualToValue={(option, value) => option.value === value.value}
             options={countries}
-            renderInput={(params) => <TextField {...params} label="Countries" />}
+            renderInput={(params) => <TextField {...params} label={<Translator translationKey='countries' />} />}
           />
           <ChartTabs
             selectedLocation={selectedLocation}
