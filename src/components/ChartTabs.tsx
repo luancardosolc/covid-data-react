@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import LineChart from './LineChart';
 import BarChart from './BarChart';
+import Translator from '../i18n/translator';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -50,8 +51,8 @@ export default function ChartTabs(props: { selectedLocation: any; cumulativeTota
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Reported cases" {...a11yProps(0)} />
-          <Tab label="Ranked charts" {...a11yProps(1)} />
+          <Tab label={<Translator translationKey='reportedCases' />} {...a11yProps(0)} />
+          <Tab label={<Translator translationKey='rankedCases' />} {...a11yProps(1)} />
         </Tabs>
       </Box>
       {selectedLocation && (

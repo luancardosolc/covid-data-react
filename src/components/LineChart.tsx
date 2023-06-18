@@ -7,11 +7,12 @@ import { LineChart as Chart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Respons
 import { format } from 'date-fns'
 
 import { dateHelper } from '../utils/dateHelper';
+import Translator from '../i18n/translator';
 
 const CustomizedAxisTick = (props: any) => {
-  const {x, y, stroke, payload} = props;
+  const { x, y, stroke, payload } = props;
   const [monthDay, year] = payload.value.split(', ');
-  
+
   return (
     <g transform={`translate(${x},${y})`}>
       <text x={0} y={0} dy={16} fill="#666">
@@ -40,41 +41,41 @@ export default function LineChart(props: { selectedLocation: any; }) {
       key: dateHelper.format(item.date),
       data: item.total_cases,
     });
-    
+
     confirmedDailyCases.push({
       id: index,
       key: dateHelper.format(item.date),
       data: item.new_cases,
     });
-    
+
     deathCumulativeCases.push({
       id: index,
       key: dateHelper.format(item.date),
       data: item.total_deaths,
     });
-    
+
     deathDailyCases.push({
       id: index,
       key: dateHelper.format(item.date),
       data: item.new_deaths,
     });
   });
-  
+
   if (dataType === 'confirmed_cases' && countType === 'cumulative') {
     selectedData = confirmedCumulativeCases;
     dataLabel = 'Cases';
   }
-  
+
   if (dataType === 'confirmed_cases' && countType === 'daily_new_values') {
     selectedData = confirmedDailyCases;
     dataLabel = 'Cases';
   }
-  
+
   if (dataType === 'death_count' && countType === 'cumulative') {
     selectedData = deathCumulativeCases;
     dataLabel = 'Deaths';
   }
-  
+
   if (dataType === 'death_count' && countType === 'daily_new_values') {
     selectedData = deathDailyCases;
     dataLabel = 'Deaths';
@@ -86,7 +87,7 @@ export default function LineChart(props: { selectedLocation: any; }) {
   ) => {
     setDataType(newDataType);
   };
-  
+
   const handleCountTypeChange = (
     event: React.MouseEvent<HTMLElement>,
     newCountType: string,
@@ -113,7 +114,7 @@ export default function LineChart(props: { selectedLocation: any; }) {
             dataKey="key"
             // minTickGap={40}
             tickSize={10}
-            tick={<CustomizedAxisTick/>}
+            tick={<CustomizedAxisTick />}
           />
           <YAxis />
           <Tooltip />
@@ -138,8 +139,8 @@ export default function LineChart(props: { selectedLocation: any; }) {
             aria-label="Platform"
             size="small"
           >
-            <ToggleButton value="confirmed_cases">Confirmed Cases</ToggleButton>
-            <ToggleButton value="death_count">Death Count</ToggleButton>
+            <ToggleButton value="confirmed_cases"><Translator translationKey="confirmedCases" /></ToggleButton>
+            <ToggleButton value="death_count"><Translator translationKey="deathCount" /></ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         <Grid item xs={6} sx={{ textAlign: 'center' }}>
@@ -151,8 +152,8 @@ export default function LineChart(props: { selectedLocation: any; }) {
             aria-label="Platform"
             size="small"
           >
-            <ToggleButton value="cumulative">Cumulative</ToggleButton>
-            <ToggleButton value="daily_new_values">Daily New Values</ToggleButton>
+            <ToggleButton value="cumulative"><Translator translationKey="cumulative" /></ToggleButton>
+            <ToggleButton value="daily_new_values"><Translator translationKey="dailyNewValues" /></ToggleButton>
           </ToggleButtonGroup>
         </Grid>
       </Grid>

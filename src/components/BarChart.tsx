@@ -6,6 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
+import Translator from '../i18n/translator';
 // import {BarChart as Chart, GridlineSeries, Gridline} from 'reaviz'
 
 export default function BarChart(props: { cumulativeTotalData: any; cumulativeDeathData: any; }) {
@@ -56,8 +57,8 @@ export default function BarChart(props: { cumulativeTotalData: any; cumulativeDe
             aria-label="Platform"
             size="small"
           >
-            <ToggleButton value="total_cases">Total Cases</ToggleButton>
-            <ToggleButton value="total_deaths">Total Deaths</ToggleButton>
+            <ToggleButton value="total_cases"><Translator translationKey="totalCases" /></ToggleButton>
+            <ToggleButton value="total_deaths"><Translator translationKey="totalDeaths" /></ToggleButton>
           </ToggleButtonGroup>
         </Grid>
         {/* Quantity Selector */}
@@ -67,7 +68,7 @@ export default function BarChart(props: { cumulativeTotalData: any; cumulativeDe
           flexDirection: 'column',
           justifyContent: 'center'
         }}>
-          <InputLabel id="countries-quantity-select-label">Countries Quantity</InputLabel>
+          <InputLabel id="countries-quantity-select-label"><Translator translationKey="countriesQuantity" /></InputLabel>
         </Grid>
         <Grid item xs={3} sx={{ textAlign: 'left' }}>
         <FormControl size='small'>

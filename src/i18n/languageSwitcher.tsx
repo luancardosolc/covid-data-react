@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Autocomplete, Box, TextField } from "@mui/material"
+import Translator from "./translator"
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation()
@@ -35,7 +36,7 @@ const LanguageSwitcher = () => {
         options={locales}
         getOptionLabel={(option) => option.label}
         isOptionEqualToValue={(option, value) => option.value === value.value}
-        renderInput={(params) => <TextField {...params} label='Language' />}
+        renderInput={(params) => <TextField {...params} label={<Translator translationKey='language' />} />}
       />
     </Box>
   )
