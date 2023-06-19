@@ -3,7 +3,7 @@ import LocationList from '../types/LocationList'
 
 class CovidDataService {
   getAll() {
-    return http.get<LocationList>('/owid-covid-data.json')
+    return http.get<LocationList>('/owid-covid-latest.json')
   }
 }
 
