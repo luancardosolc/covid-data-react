@@ -5,8 +5,11 @@ import CovidDataService from './api/services/covid.service'
 import ChartTabs from './components/ChartTabs'
 import Translator from './i18n/translator'
 import LanguageSwitcher from './i18n/languageSwitcher'
+import worldCountries from './i18n/world-countries'
+import { useTranslation } from 'react-i18next'
 
 function App() {
+  const { i18n } = useTranslation()
   const [countries, setCountries] = useState([])
 
   const [value, setValue] = useState<any | null>(null);
@@ -47,16 +50,26 @@ function App() {
         cumulativeTotalDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_cases})
         cumulativeDeathDataTemp.push({ key: locationData.location, data: locationDataLastDay.total_deaths})
         
+        // Autocomplete Data
+        let locationLabel = worldCountries[i18n.language].find((country: any) => {
+          if (country.alpha2) {
+            return country.alpha3.toUpperCase() === locationData.abbreviation
+          } else {
+            return country.owid === locationData.abbreviation
+          }
+        })?.name
+        locationLabel = locationLabel ? locationLabel : locationData.location
+        locationsArray.push({ label: locationLabel, value: locationData.abbreviation })
+
         // Global Data
-        console.log('LUAN ', { abbreviation: locationData.abbreviation, locationData });
         if (locationData.abbreviation === 'OWID_WRL') {
-          valueTemp = { label: locationData.location, value: locationData.abbreviation };
+          valueTemp = { label: locationLabel, value: locationData.abbreviation };
           selectedLocationTemp = response.data[locationData.abbreviation];
         }
-        
-        // Autocomplete Data
-        locationsArray.push({ label: locationData.location, value: locationData.abbreviation })
       }
+
+      // sort the countries by label
+      locationsArray.sort((a: { label: string }, b: { label: any }) => a.label.localeCompare(b.label));
 
       setCountries(locationsArray)
       setCumulativeTotalData(cumulativeTotalDataTemp)
@@ -70,6 +83,10 @@ function App() {
   useEffect(() => {
     fetchData()
   }, [])
+  // fetchData function when the language is changed
+  useEffect(() => {
+    fetchData()
+  }, [i18n.language])
 
   return (
     <Box
