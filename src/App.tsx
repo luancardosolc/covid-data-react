@@ -66,7 +66,7 @@ function App() {
         locationsArray.push({ label: locationLabel, value: locationData.abbreviation })
 
         // Global Data
-        if (locationData.abbreviation === 'OWID_WRL') {
+        if (!value && locationData.abbreviation === 'OWID_WRL') {
           valueTemp = { label: locationLabel, value: locationData.abbreviation };
           selectedLocationTemp = response.data[locationData.abbreviation];
         }
@@ -74,6 +74,16 @@ function App() {
 
       // sort the countries by label
       locationsArray.sort((a: { label: string }, b: { label: any }) => a.label.localeCompare(b.label));
+
+      // When we change the language, the countries list is updated and its index is changed
+      // so we need to update the value and selectedLocation
+      if (value) {
+        const index = locationsArray.findIndex((country: any) => country.value === value.value)
+        if (index !== -1) {
+          valueTemp = locationsArray[index]
+          selectedLocationTemp = response.data[valueTemp.value]
+        }
+      }
 
       setCountries(locationsArray)
       setCumulativeTotalData(cumulativeTotalDataTemp)
