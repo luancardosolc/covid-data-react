@@ -8,13 +8,14 @@ import LanguageSwitcher from './i18n/languageSwitcher'
 import worldCountries from './i18n/world-countries'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import { setCountries } from './store/slices/countriesSlice'
 
 function App() {
   const { i18n } = useTranslation()
-  const [countries, setCountries] = useState([])
-  const countriesRedux = useSelector((state: any) => state.countries)
+  // const [countries, setCountries] = useState([])
+  const countries = useSelector((state: any) => state.countries)
   const dispatch = useDispatch()
-  console.log('LUAN countriesRedux', countriesRedux)
+  // console.log('LUAN countriesRedux', countriesRedux)
 
   const [value, setValue] = useState<any | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
@@ -85,7 +86,7 @@ function App() {
         }
       }
 
-      setCountries(locationsArray)
+      dispatch(setCountries(locationsArray))
       setCumulativeTotalData(cumulativeTotalDataTemp)
       setCumulativeDeathData(cumulativeDeathDataTemp)
       setValue(valueTemp)
