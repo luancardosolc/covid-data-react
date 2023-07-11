@@ -9,15 +9,18 @@ import worldCountries from './i18n/world-countries'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCountries, setSelectedCountry } from './store/slices/countriesSlice'
+import { setLocations, setSelectedLocation } from './store/slices/locationsSlice'
 
 function App() {
   const { i18n } = useTranslation()
-  const countries = useSelector((state: any) => state.countries.countryList)
+
   const dispatch = useDispatch()
 
+  const countries = useSelector((state: any) => state.countries.countryList)
   const selectedCountry = useSelector((state: any) => state.countries.selectedCountry)
-  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
-  const [locations, setLocations] = useState<any | null>(null);
+
+  const locations = useSelector((state: any) => state.locations.locationList)
+  const selectedLocation = useSelector((state: any) => state.locations.selectedLocation)
 
   const [cumulativeTotalData, setCumulativeTotalData] = useState([])
   const [cumulativeDeathData, setCumulativeDeathData] = useState([])
@@ -26,15 +29,17 @@ function App() {
     try {
       let valueTemp, selectedLocationTemp = null;
       const response = await CovidDataService.getAll()
-      setLocations(response.data)
+      dispatch(setLocations(response.data))
 
       const locationsArray: any = []
       const cumulativeTotalDataTemp: any = []
       const cumulativeDeathDataTemp: any = []
 
       for (const locationAbbreviation in response.data) {
-        const locationData = response.data[locationAbbreviation]
-        locationData.abbreviation = locationAbbreviation
+        const locationData = {
+          ...response.data[locationAbbreviation],
+          abbreviation: locationAbbreviation,
+        }
         
         // Cumulative Data for Ranked Charts
         let index = -1;
@@ -88,7 +93,7 @@ function App() {
       setCumulativeTotalData(cumulativeTotalDataTemp)
       setCumulativeDeathData(cumulativeDeathDataTemp)
       dispatch(setSelectedCountry(valueTemp))
-      setSelectedLocation(selectedLocationTemp)
+      dispatch(setSelectedLocation(selectedLocationTemp))
     } catch (error) {
       console.error(error)
     }
@@ -130,7 +135,7 @@ function App() {
             onChange={(event: any, newValue: any | null) => {
               dispatch(setSelectedCountry(newValue))
               if (newValue?.value) {
-                setSelectedLocation(locations[newValue.value]) 
+                dispatch(setSelectedLocation(locations[newValue.value]))
               }
             }}
             isOptionEqualToValue={(option, value) => option.value === value.value}
