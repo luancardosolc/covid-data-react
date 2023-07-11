@@ -8,16 +8,14 @@ import LanguageSwitcher from './i18n/languageSwitcher'
 import worldCountries from './i18n/world-countries'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCountries } from './store/slices/countriesSlice'
+import { setCountries, setSelectedCountry } from './store/slices/countriesSlice'
 
 function App() {
   const { i18n } = useTranslation()
-  // const [countries, setCountries] = useState([])
-  const countries = useSelector((state: any) => state.countries)
+  const countries = useSelector((state: any) => state.countries.countryList)
   const dispatch = useDispatch()
-  // console.log('LUAN countriesRedux', countriesRedux)
 
-  const [value, setValue] = useState<any | null>(null);
+  const selectedCountry = useSelector((state: any) => state.countries.selectedCountry)
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
   const [locations, setLocations] = useState<any | null>(null);
 
@@ -67,7 +65,7 @@ function App() {
         locationsArray.push({ label: locationLabel, value: locationData.abbreviation })
 
         // Global Data
-        if (!value && locationData.abbreviation === 'OWID_WRL') {
+        if (!selectedCountry && locationData.abbreviation === 'OWID_WRL') {
           valueTemp = { label: locationLabel, value: locationData.abbreviation };
           selectedLocationTemp = response.data[locationData.abbreviation];
         }
@@ -78,8 +76,8 @@ function App() {
 
       // When we change the language, the countries list is updated and its index is changed
       // so we need to update the value and selectedLocation
-      if (value) {
-        const index = locationsArray.findIndex((country: any) => country.value === value.value)
+      if (selectedCountry) {
+        const index = locationsArray.findIndex((country: any) => country.value === selectedCountry.value)
         if (index !== -1) {
           valueTemp = locationsArray[index]
           selectedLocationTemp = response.data[valueTemp.value]
@@ -89,7 +87,7 @@ function App() {
       dispatch(setCountries(locationsArray))
       setCumulativeTotalData(cumulativeTotalDataTemp)
       setCumulativeDeathData(cumulativeDeathDataTemp)
-      setValue(valueTemp)
+      dispatch(setSelectedCountry(valueTemp))
       setSelectedLocation(selectedLocationTemp)
     } catch (error) {
       console.error(error)
@@ -128,10 +126,10 @@ function App() {
           }}
         >
           <Autocomplete
-            value={value}
+            value={selectedCountry}
             onChange={(event: any, newValue: any | null) => {
-              setValue(newValue)
-              if (newValue.value) {
+              dispatch(setSelectedCountry(newValue))
+              if (newValue?.value) {
                 setSelectedLocation(locations[newValue.value]) 
               }
             }}

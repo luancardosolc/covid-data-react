@@ -6,20 +6,29 @@ export interface Country {
   value: string,
 }
 
-const initialState: Country[] = [
-  { label: 'Test United States', value: 'TUS' },
-]
+interface CountriesState {
+  countryList: Country[],
+  selectedCountry: Country | null,
+}
+
+const initialState: CountriesState = {
+  countryList: [],
+  selectedCountry: null,
+}
 
 export const countriesSlice = createSlice({
   name: 'countries',
   initialState,
   reducers: {
     setCountries: (state, action: PayloadAction<Country[]>) => {
-      return action.payload
+      state.countryList = action.payload
+    },
+    setSelectedCountry: (state, action: PayloadAction<Country>) => {
+      state.selectedCountry = action.payload
     },
   },
 })
 
-export const { setCountries } = countriesSlice.actions
+export const { setCountries, setSelectedCountry } = countriesSlice.actions
 
 export default countriesSlice.reducer
