@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCountries, setSelectedCountry } from './store/slices/countriesSlice'
 import { setLocations, setSelectedLocation } from './store/slices/locationsSlice'
+import CountriesAutocomplete from './components/CountriesAutocomplete'
 
 function App() {
   const { i18n } = useTranslation()
@@ -130,18 +131,7 @@ function App() {
             p: 1,
           }}
         >
-          <Autocomplete
-            value={selectedCountry}
-            onChange={(event: any, newValue: any | null) => {
-              dispatch(setSelectedCountry(newValue))
-              if (newValue?.value) {
-                dispatch(setSelectedLocation(locations[newValue.value]))
-              }
-            }}
-            isOptionEqualToValue={(option, value) => option.value === value.value}
-            options={countries}
-            renderInput={(params) => <TextField {...params} label={<Translator translationKey='countries' />} />}
-          />
+          <CountriesAutocomplete />
           <ChartTabs
             selectedLocation={selectedLocation}
             cumulativeTotalData={cumulativeTotalData}
